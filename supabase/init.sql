@@ -3,8 +3,8 @@ create table public.pastes (
   id text primary key,
   content text not null,
   language text not null,
-  created_at bigint not null,
-  expires_at bigint not null
+  created_at timestamp with time zone not null,
+  expires_at timestamp with time zone not null
 );
 
 -- Enable row level security
