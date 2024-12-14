@@ -17,12 +17,13 @@ const ShareButton: React.FC<ShareButtonProps> = ({ code, language }) => {
     }
 
     try {
-      const paste = createPaste(code, language);
+      const paste = await createPaste(code, language);
       const shareUrl = `${window.location.origin}/paste/${paste.id}`;
       await navigator.clipboard.writeText(shareUrl);
       setStatus('success');
       setTimeout(() => setStatus('idle'), 2000);
     } catch (err) {
+      console.error('Error sharing paste:', err);
       setStatus('error');
       setTimeout(() => setStatus('idle'), 2000);
     }
