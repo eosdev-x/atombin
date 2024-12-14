@@ -6,19 +6,27 @@ const EXPIRATION_HOURS = 24;
 
 export const createPaste = async (content: string, language: string): Promise<Paste> => {
   try {
-    console.log('Creating paste with content length:', content.length);
-    console.log('Language:', language);
-    
+    if (!content || content.trim().length === 0) {
+      throw new Error('Content cannot be empty');
+    }
+
     const now = Date.now();
+    const id = nanoid(10);
+    
     const paste: Paste = {
-      id: nanoid(10),
-      content,
+      id,
+      content: content.trim(),
       language,
       createdAt: now,
       expiresAt: now + (EXPIRATION_HOURS * 60 * 60 * 1000)
     };
 
-    console.log('Attempting to insert paste:', { ...paste, content: `${content.substring(0, 50)}...` });
+    console.log('Creating paste:', {
+      id: paste.id,
+      contentLength: paste.content.length,
+      language: paste.language,
+      preview: paste.content.substring(0, 100) + '...'
+    });
 
     const { data, error } = await supabase
       .from('pastes')
@@ -37,7 +45,12 @@ export const createPaste = async (content: string, language: string): Promise<Pa
       throw new Error(`Failed to create paste: ${error.message}`);
     }
 
-    console.log('Successfully created paste:', data);
+    console.log('Successfully created paste:', {
+      id: data.id,
+      contentLength: data.content.length,
+      language: data.language
+    });
+
     return paste;
   } catch (err) {
     console.error('Error in createPaste:', err);
@@ -50,7 +63,7 @@ export const getPasteById = async (id: string): Promise<Paste | null> => {
     .from('pastes')
     .select('*')
     .eq('id', id)
-    .gt('expires_at', Date.now())
+    .gt('expires_at', new Date().toISOString())
     .single();
 
   if (error) {
@@ -64,8 +77,8 @@ export const getPasteById = async (id: string): Promise<Paste | null> => {
     id: data.id,
     content: data.content,
     language: data.language,
-    createdAt: data.created_at,
-    expiresAt: data.expires_at
+    createdAt: new Date(data.created_at).getTime(),
+    expiresAt: new Date(data.expires_at).getTime()
   };
 };
 
@@ -85,7 +98,7 @@ export const getAllPastes = async (): Promise<Paste[]> => {
   const { data, error } = await supabase
     .from('pastes')
     .select('*')
-    .gt('expires_at', Date.now())
+    .gt('expires_at', new Date().toISOString())
     .order('created_at', { ascending: false });
 
   if (error) {
@@ -97,7 +110,7 @@ export const getAllPastes = async (): Promise<Paste[]> => {
     id: row.id,
     content: row.content,
     language: row.language,
-    createdAt: row.created_at,
-    expiresAt: row.expires_at
+    createdAt: new Date(row.created_at).getTime(),
+    expiresAt: new Date(row.expires_at).getTime()
   }));
 };
