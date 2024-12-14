@@ -127,6 +127,10 @@ function App() {
             language={language}
             value={code}
             onChange={handleEditorChange}
+            onMount={(editor) => {
+              console.log('Editor mounted, initial value:', editor.getValue());
+              setCode(editor.getValue() || '');
+            }}
             theme={theme}
             options={{
               fontSize: 14,

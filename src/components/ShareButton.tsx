@@ -14,8 +14,9 @@ const ShareButton: React.FC<ShareButtonProps> = ({ code, language, onShare }) =>
   const handleShare = useCallback(async () => {
     console.log('ShareButton code value:', code);
     console.log('ShareButton code type:', typeof code);
+    console.log('ShareButton code length:', code?.length);
     
-    if (typeof code !== 'string' || code.trim() === '') {
+    if (!code || code.trim().length === 0) {
       console.log('Empty or invalid code detected');
       setStatus('error');
       return;
@@ -23,7 +24,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({ code, language, onShare }) =>
 
     try {
       onShare?.();
-      const paste = await createPaste(code, language);
+      const paste = await createPaste(code.trim(), language);
       const shareUrl = `${window.location.origin}/paste/${paste.id}`;
       await navigator.clipboard.writeText(shareUrl);
       setStatus('success');
