@@ -49,8 +49,13 @@ function App() {
   }, [code]);
 
   const handleEditorChange = useCallback((value: string | undefined) => {
+    console.log('Editor value:', value);
     setCode(value || '');
   }, []);
+
+  const handleShare = useCallback(() => {
+    console.log('Current code value:', code);
+  }, [code]);
 
   if (loading) {
     return <div className="min-h-screen grid place-items-center">
@@ -104,7 +109,7 @@ function App() {
             
             <div className="flex items-center gap-3">
               <ThemeToggle theme={theme} setTheme={setTheme} />
-              <ShareButton code={code} language={language} />
+              <ShareButton code={code} language={language} onShare={handleShare} />
               <button
                 onClick={handleCopy}
                 className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-200 transition-colors duration-200"

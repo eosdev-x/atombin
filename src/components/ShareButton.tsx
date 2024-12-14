@@ -5,18 +5,24 @@ import { createPaste } from '../utils/storage';
 interface ShareButtonProps {
   code: string | undefined;
   language: string;
+  onShare?: () => void;
 }
 
-const ShareButton: React.FC<ShareButtonProps> = ({ code, language }) => {
+const ShareButton: React.FC<ShareButtonProps> = ({ code, language, onShare }) => {
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
   
   const handleShare = useCallback(async () => {
-    if (!code || !code.trim()) {
+    console.log('ShareButton code value:', code);
+    console.log('ShareButton code type:', typeof code);
+    
+    if (typeof code !== 'string' || code.trim() === '') {
+      console.log('Empty or invalid code detected');
       setStatus('error');
       return;
     }
 
     try {
+      onShare?.();
       const paste = await createPaste(code, language);
       const shareUrl = `${window.location.origin}/paste/${paste.id}`;
       await navigator.clipboard.writeText(shareUrl);
@@ -27,7 +33,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({ code, language }) => {
       setStatus('error');
       setTimeout(() => setStatus('idle'), 2000);
     }
-  }, [code, language]);
+  }, [code, language, onShare]);
 
   return (
     <button
