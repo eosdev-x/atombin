@@ -5,31 +5,44 @@ import { supabase } from './supabase';
 const EXPIRATION_HOURS = 24;
 
 export const createPaste = async (content: string, language: string): Promise<Paste> => {
-  const now = Date.now();
-  const paste: Paste = {
-    id: nanoid(10),
-    content,
-    language,
-    createdAt: now,
-    expiresAt: now + (EXPIRATION_HOURS * 60 * 60 * 1000)
-  };
+  try {
+    console.log('Creating paste with content length:', content.length);
+    console.log('Language:', language);
+    
+    const now = Date.now();
+    const paste: Paste = {
+      id: nanoid(10),
+      content,
+      language,
+      createdAt: now,
+      expiresAt: now + (EXPIRATION_HOURS * 60 * 60 * 1000)
+    };
 
-  const { error } = await supabase
-    .from('pastes')
-    .insert([{
-      id: paste.id,
-      content: paste.content,
-      language: paste.language,
-      created_at: paste.createdAt,
-      expires_at: paste.expiresAt
-    }]);
+    console.log('Attempting to insert paste:', { ...paste, content: `${content.substring(0, 50)}...` });
 
-  if (error) {
-    console.error('Error creating paste:', error);
-    throw error;
+    const { data, error } = await supabase
+      .from('pastes')
+      .insert([{
+        id: paste.id,
+        content: paste.content,
+        language: paste.language,
+        created_at: new Date(paste.createdAt).toISOString(),
+        expires_at: new Date(paste.expiresAt).toISOString()
+      }])
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Supabase error creating paste:', error);
+      throw new Error(`Failed to create paste: ${error.message}`);
+    }
+
+    console.log('Successfully created paste:', data);
+    return paste;
+  } catch (err) {
+    console.error('Error in createPaste:', err);
+    throw err;
   }
-
-  return paste;
 };
 
 export const getPasteById = async (id: string): Promise<Paste | null> => {
