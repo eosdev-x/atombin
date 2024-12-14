@@ -32,13 +32,13 @@ export const getPasteById = async (id: string): Promise<Paste | null> => {
   
   if (!result.length || !result[0].values.length) return null;
   
-  const [pasteId, content, language, createdAt, expiresAt] = result[0].values[0];
+  const row = result[0].values[0];
   return {
-    id: pasteId,
-    content,
-    language,
-    createdAt,
-    expiresAt
+    id: String(row[0]),
+    content: String(row[1]),
+    language: String(row[2]),
+    createdAt: Number(row[3]),
+    expiresAt: Number(row[4])
   };
 };
 
@@ -57,12 +57,12 @@ export const getAllPastes = async (): Promise<Paste[]> => {
     
     if (!result.length) return [];
     
-    return result[0].values.map(([id, content, language, createdAt, expiresAt]) => ({
-      id,
-      content,
-      language,
-      createdAt,
-      expiresAt
+    return result[0].values.map(row => ({
+      id: String(row[0]),
+      content: String(row[1]),
+      language: String(row[2]),
+      createdAt: Number(row[3]),
+      expiresAt: Number(row[4])
     }));
   } catch (error) {
     console.error('Error getting pastes:', error);
