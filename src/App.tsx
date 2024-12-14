@@ -21,12 +21,19 @@ function App() {
     const match = window.location.pathname.match(/^\/paste\/([a-zA-Z0-9-_]+)$/);
     if (match) {
       const pasteId = match[1];
-      const paste = getPasteById(pasteId);
-      if (paste) {
-        setCode(paste.content);
-        setLanguage(paste.language);
-        setPasteData({ id: paste.id, expiresAt: paste.expiresAt });
-      }
+      const loadPaste = async () => {
+        try {
+          const paste = await getPasteById(pasteId);
+          if (paste) {
+            setCode(paste.content);
+            setLanguage(paste.language);
+            setPasteData({ id: paste.id, expiresAt: paste.expiresAt });
+          }
+        } catch (error) {
+          console.error('Error loading paste:', error);
+        }
+      };
+      loadPaste();
     }
   }, []);
 
