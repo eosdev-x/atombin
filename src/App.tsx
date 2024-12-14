@@ -8,6 +8,7 @@ import StatsCard from './components/StatsCard';
 import ShareButton from './components/ShareButton';
 import ExpiryBadge from './components/ExpiryBadge';
 import { getPasteById } from './utils/storage';
+import { initDatabase } from './utils/db';
 
 function App() {
   const [theme, setTheme] = useState<'vs-dark' | 'light'>('vs-dark');
@@ -15,26 +16,35 @@ function App() {
   const [code, setCode] = useState('');
   const [copied, setCopied] = useState(false);
   const [pasteData, setPasteData] = useState<{ id: string; expiresAt: number } | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check if we're viewing a shared paste
-    const match = window.location.pathname.match(/^\/paste\/([a-zA-Z0-9-_]+)$/);
-    if (match) {
-      const pasteId = match[1];
-      const loadPaste = async () => {
-        try {
+    // Initialize database on app load
+    const init = async () => {
+      try {
+        console.log('Initializing database on app load');
+        await initDatabase();
+        
+        // Check if we're viewing a shared paste
+        const match = window.location.pathname.match(/^\/paste\/([a-zA-Z0-9-_]+)$/);
+        if (match) {
+          console.log('Found paste ID in URL:', match[1]);
+          const pasteId = match[1];
           const paste = await getPasteById(pasteId);
+          console.log('Loaded paste:', paste);
           if (paste) {
             setCode(paste.content);
             setLanguage(paste.language);
             setPasteData({ id: paste.id, expiresAt: paste.expiresAt });
           }
-        } catch (error) {
-          console.error('Error loading paste:', error);
         }
-      };
-      loadPaste();
-    }
+      } catch (error) {
+        console.error('Error initializing:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    init();
   }, []);
 
   const handleCopy = useCallback(() => {
@@ -42,6 +52,12 @@ function App() {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }, [code]);
+
+  if (loading) {
+    return <div className="min-h-screen grid place-items-center">
+      <div className="text-gray-400">Loading...</div>
+    </div>;
+  }
 
   return (
     <div className="min-h-screen grid-pattern pb-20">
