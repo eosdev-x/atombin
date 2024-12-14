@@ -68,7 +68,7 @@ function App() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12">
         <header className="text-center mb-16">
           <h1 className="text-5xl font-bold bg-gradient-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent mb-4">
-            Split Code Into Perfect Blocks
+            Share Code Snippets With Atomic Precision
           </h1>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
             Share your code snippets with powerful syntax highlighting. Our intelligent
@@ -89,8 +89,8 @@ function App() {
           />
           <StatsCard
             icon={<Clock className="w-6 h-6 text-purple-400" />}
-            value="67%"
-            label="Time Saved"
+            value="24hr"
+            label="Paste Lifetime"
           />
         </div>
 
