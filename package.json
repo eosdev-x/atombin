@@ -12,6 +12,7 @@
   "dependencies": {
     "@monaco-editor/react": "^4.6.0",
     "@supabase/supabase-js": "^2.39.7",
+    "@types/sql.js": "^1.4.9",
     "date-fns": "^3.3.1",
     "lucide-react": "^0.344.0",
     "monaco-editor": "^0.47.0",
@@ -19,7 +20,8 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hot-toast": "^2.4.1",
-    "react-router-dom": "^6.22.2"
+    "react-router-dom": "^6.22.2",
+    "sql.js": "^1.12.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
