@@ -8,7 +8,6 @@ import StatsCard from './components/StatsCard';
 import ShareButton from './components/ShareButton';
 import ExpiryBadge from './components/ExpiryBadge';
 import { getPasteById } from './utils/storage';
-import { initDatabase } from './utils/db';
 
 function App() {
   const [theme, setTheme] = useState<'vs-dark' | 'light'>('vs-dark');
@@ -19,12 +18,8 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Initialize database on app load
-    const init = async () => {
+    const loadPaste = async () => {
       try {
-        console.log('Initializing database on app load');
-        await initDatabase();
-        
         // Check if we're viewing a shared paste
         const match = window.location.pathname.match(/^\/paste\/([a-zA-Z0-9-_]+)$/);
         if (match) {
@@ -39,12 +34,12 @@ function App() {
           }
         }
       } catch (error) {
-        console.error('Error initializing:', error);
+        console.error('Error loading paste:', error);
       } finally {
         setLoading(false);
       }
     };
-    init();
+    loadPaste();
   }, []);
 
   const handleCopy = useCallback(() => {
