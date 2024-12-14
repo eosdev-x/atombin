@@ -3,7 +3,7 @@ import { Share2, Check, AlertCircle } from 'lucide-react';
 import { createPaste } from '../utils/storage';
 
 interface ShareButtonProps {
-  code: string;
+  code: string | undefined;
   language: string;
 }
 
@@ -11,7 +11,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({ code, language }) => {
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
   
   const handleShare = useCallback(async () => {
-    if (!code.trim()) {
+    if (!code || !code.trim()) {
       setStatus('error');
       return;
     }

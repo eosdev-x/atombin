@@ -12,7 +12,7 @@ import { getPasteById } from './utils/storage';
 function App() {
   const [theme, setTheme] = useState<'vs-dark' | 'light'>('vs-dark');
   const [language, setLanguage] = useState('javascript');
-  const [code, setCode] = useState('');
+  const [code, setCode] = useState<string>('');
   const [copied, setCopied] = useState(false);
   const [pasteData, setPasteData] = useState<{ id: string; expiresAt: number } | null>(null);
   const [loading, setLoading] = useState(true);
@@ -47,6 +47,10 @@ function App() {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }, [code]);
+
+  const handleEditorChange = useCallback((value: string | undefined) => {
+    setCode(value || '');
+  }, []);
 
   if (loading) {
     return <div className="min-h-screen grid place-items-center">
@@ -117,7 +121,7 @@ function App() {
             defaultLanguage="javascript"
             language={language}
             value={code}
-            onChange={(value) => setCode(value || '')}
+            onChange={handleEditorChange}
             theme={theme}
             options={{
               fontSize: 14,
