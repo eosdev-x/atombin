@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
 import type { Paste } from '../types/paste';
-import { initDatabase } from './db';
+import { initDatabase, saveDatabase } from './db';
 
 const EXPIRATION_HOURS = 24;
 
@@ -19,6 +19,9 @@ export const createPaste = async (content: string, language: string): Promise<Pa
     'INSERT INTO pastes (id, content, language, created_at, expires_at) VALUES (?, ?, ?, ?, ?)',
     [paste.id, paste.content, paste.language, paste.createdAt, paste.expiresAt]
   );
+  
+  // Save database state after creating paste
+  await saveDatabase();
   
   return paste;
 };
@@ -45,6 +48,9 @@ export const getPasteById = async (id: string): Promise<Paste | null> => {
 export const deletePaste = async (id: string): Promise<void> => {
   const db = await initDatabase();
   db.run('DELETE FROM pastes WHERE id = ?', [id]);
+  
+  // Save database state after deleting paste
+  await saveDatabase();
 };
 
 export const getAllPastes = async (): Promise<Paste[]> => {
