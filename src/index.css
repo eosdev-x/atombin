@@ -4,21 +4,73 @@
 
 @layer base {
   body {
-    @apply bg-[#0f1520] text-gray-100;
-    background-image: 
-      linear-gradient(to bottom right, 
-        rgba(16, 185, 129, 0.05),
-        rgba(59, 130, 246, 0.05));
+    @apply bg-[#0B1A23];
+    background: radial-gradient(
+      circle at center,
+      #142937 0%,
+      #0B1A23 100%
+    );
     background-attachment: fixed;
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-lg border border-white/10;
+  }
+
+  .stats-card {
+    transition: outline-color 0.3s ease, outline-width 0.3s ease, outline-offset 0.3s ease;
+    outline: 2px solid transparent;
+    outline-offset: 0px;
+  }
+
+  .stats-card:hover {
+    outline-color: #35CAA4;
+    outline-offset: 0px;
   }
 }
 
 @layer utilities {
   .grid-pattern {
-    background-size: 50px 50px;
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  .grid-pattern::before,
+  .grid-pattern::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
     background-image: 
-      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+      linear-gradient(#35CAA408 1px, transparent 1px),
+      linear-gradient(90deg, #35CAA408 1px, transparent 1px);
+    background-size: 32px 32px;
+    transform-origin: 0 0;
+    animation: gridScroll 60s linear infinite;
+    pointer-events: none;
+  }
+
+  .grid-pattern::after {
+    opacity: 0.3;
+    transform: translateY(-30%) rotate(30deg);
+    animation: gridScroll 45s linear infinite;
+  }
+
+  @keyframes gridScroll {
+    0% {
+      transform: translateY(0) rotate(0);
+    }
+    100% {
+      transform: translateY(-25%) rotate(-5deg);
+    }
   }
 
   .glass-card {
