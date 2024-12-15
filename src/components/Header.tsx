@@ -3,7 +3,7 @@ import { Code2 } from 'lucide-react';
 
 const Header: React.FC = () => {
   return (
-    <header className="glass-card sticky top-0 z-50 px-4 py-3 mb-6">
+    <header className="glass-card sticky top-0 z-50 px-4 py-3 mb-12">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <Code2 className="w-6 h-6 text-emerald-500" />

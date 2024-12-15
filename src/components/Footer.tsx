@@ -3,19 +3,19 @@ import { Heart } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="glass-card mt-auto px-4 py-3">
-      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-sm text-gray-400">
-        <div className="flex items-center space-x-1 mb-2 sm:mb-0">
+    <footer className="glass-card mt-12 px-4 pt-6 pb-3 text-center">
+      <div className="max-w-7xl mx-auto flex flex-col items-center justify-center gap-4 text-sm text-gray-400">
+        <div className="flex items-center space-x-1 mb-2">
           <span>Built with</span>
           <Heart className="w-4 h-4 text-red-500 fill-red-500" />
           <span>by</span>
           <a
-            href="https://github.com/yourusername"
+            href="https://github.com/eosdev-x"
             target="_blank"
             rel="noopener noreferrer"
             className="text-emerald-500 hover:text-emerald-400 transition-colors"
           >
-            Your Name
+            eosdev
           </a>
         </div>
         
@@ -32,7 +32,7 @@ const Footer: React.FC = () => {
           >
             Privacy
           </a>
-          <span>© {new Date().getFullYear()} AtomBin</span>
+          <span> {new Date().getFullYear()} Atomlaunch</span>
         </div>
       </div>
     </footer>

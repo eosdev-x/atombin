@@ -4,21 +4,41 @@
 
 @layer base {
   body {
-    @apply bg-[#1A1E23];
-    background: linear-gradient(
-      135deg,
-      #1A1E23 0%,
-      #1d2229 50%,
-      #1A1E23 100%
+    @apply bg-[#0B1A23];
+    background: radial-gradient(
+      circle at center,
+      #142937 0%,
+      #0B1A23 100%
     );
     background-attachment: fixed;
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-lg border border-white/10;
+  }
+
+  .stats-card {
+    transition: outline-color 0.3s ease, outline-width 0.3s ease, outline-offset 0.3s ease;
+    outline: 2px solid transparent;
+    outline-offset: 0px;
+  }
+
+  .stats-card:hover {
+    outline-color: #35CAA4;
+    outline-offset: 0px;
   }
 }
 
 @layer utilities {
   .grid-pattern {
-    position: relative;
-    overflow: hidden;
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
   }
 
   .grid-pattern::before,
@@ -30,16 +50,16 @@
     width: 200%;
     height: 200%;
     background-image: 
-      linear-gradient(#67DBBA10 1px, transparent 1px),
-      linear-gradient(90deg, #67DBBA10 1px, transparent 1px);
-    background-size: 40px 40px;
+      linear-gradient(#35CAA408 1px, transparent 1px),
+      linear-gradient(90deg, #35CAA408 1px, transparent 1px);
+    background-size: 32px 32px;
     transform-origin: 0 0;
     animation: gridScroll 60s linear infinite;
     pointer-events: none;
   }
 
   .grid-pattern::after {
-    opacity: 0.5;
+    opacity: 0.3;
     transform: translateY(-30%) rotate(30deg);
     animation: gridScroll 45s linear infinite;
   }

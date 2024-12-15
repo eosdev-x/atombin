@@ -66,7 +66,8 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col grid-pattern">
+    <div className="min-h-screen flex flex-col relative">
+      <div className="grid-pattern" />
       <Header />
       <main className="container mx-auto px-4 flex-1">
         <div className="glass-card p-4 rounded-lg">
