@@ -4,21 +4,53 @@
 
 @layer base {
   body {
-    @apply bg-[#0f1520] text-gray-100;
-    background-image: 
-      linear-gradient(to bottom right, 
-        rgba(16, 185, 129, 0.05),
-        rgba(59, 130, 246, 0.05));
+    @apply bg-[#1A1E23];
+    background: linear-gradient(
+      135deg,
+      #1A1E23 0%,
+      #1d2229 50%,
+      #1A1E23 100%
+    );
     background-attachment: fixed;
   }
 }
 
 @layer utilities {
   .grid-pattern {
-    background-size: 50px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .grid-pattern::before,
+  .grid-pattern::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
     background-image: 
-      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+      linear-gradient(#67DBBA10 1px, transparent 1px),
+      linear-gradient(90deg, #67DBBA10 1px, transparent 1px);
+    background-size: 40px 40px;
+    transform-origin: 0 0;
+    animation: gridScroll 60s linear infinite;
+    pointer-events: none;
+  }
+
+  .grid-pattern::after {
+    opacity: 0.5;
+    transform: translateY(-30%) rotate(30deg);
+    animation: gridScroll 45s linear infinite;
+  }
+
+  @keyframes gridScroll {
+    0% {
+      transform: translateY(0) rotate(0);
+    }
+    100% {
+      transform: translateY(-25%) rotate(-5deg);
+    }
   }
 
   .glass-card {
