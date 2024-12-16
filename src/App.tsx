@@ -67,12 +67,11 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col relative">
-      <div className="grid-pattern" />
       <Header />
       <main className="container mx-auto px-4 flex-1">
         <div className="glass-card p-4 rounded-lg">
           <div className="text-center mb-16">
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent mb-4">
+            <h1 className="text-5xl font-bold bg-gradient-to-r from-emerald-400 to-blue-500 bg-clip-text text-transparent mt-8 mb-4">
               Share Code Snippets With Atomic Precision
             </h1>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
