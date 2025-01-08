@@ -10,14 +10,19 @@ A robust and scalable solution for sharing code between team members. This proje
 Ensure you have the following prerequisites installed:
 - Node
 
-```bash
 # Clone the repository
+```bash
 git clone https://github.com/eosdev-x/atombin.git
-
+```
 # Navigate to project directory
+```bash
 cd atombin
-
+```
 # Run project
+```bash
 npm i
+```
+```bash
 npm run dev
 ```
+
